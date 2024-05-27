@@ -39,12 +39,14 @@ const HeaderSpan = styled.span`
   padding-right: 0.5rem; /* Adjust padding as needed */
 `;
 
-function CabinTable() {
+function CabinTable({ searchTerm }) {
   const { isLoading, cabins = [] } = useCabins();
   const [sortedCabins, setSortedCabins] = useState([]);
   const [capacityLowtoHigh, setCapacityLowtoHigh] = useState(true);
   const [priceLowtoHigh, setPriceLowtoHigh] = useState(true);
   const [discountLowtoHigh, setDiscountLowtoHigh] = useState(true);
+
+  console.log(searchTerm);
 
   useEffect(() => {
     setSortedCabins(cabins);
@@ -87,6 +89,14 @@ function CabinTable() {
     setSortedCabins(sorted);
     console.log(sorted);
   }
+
+  useEffect(() => {
+    const searchReasults = cabins.filter((sinlgeData) =>
+      sinlgeData.name.includes(searchTerm)
+    );
+    console.log(searchReasults);
+    setSortedCabins(searchReasults);
+  }, [searchTerm]);
 
   if (isLoading) return <Spinner />;
 
